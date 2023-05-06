@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+<!doctype html>
+<html>
+<head>
+    <title>{% block title %} Homepage {% endblock %}</title>
+    {% block style %}
+    {% comment %} body {
+        background-image: linear-gradient(to right, #ff4c68, #ff4c68);
+    } {% endcomment %}
+    .card {
+        border: none;
+        border-radius: 1rem;
+        transition: all 0.2s;
+        box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+    }
+    .card:hover {
+        transform: scale(1.01);
+        box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
+    }
+    .card-title {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    .card-text:last-child {
+        margin-bottom: 0;
+    }
+    .btn-primary {
+        background-color: #ff4c68;
+        border-color: #ff4c68;
+        box-shadow: none;
+        outline: none;
+    }
+    .btn-primary:hover {
+        background-color: #ff4c68;
+        border-color: #ff4c68;
+    }
+    .btn-primary:focus, .btn-primary:active {
+        box-shadow: none;
+    }
+    .btn-outline-primary {
+        color: #ff4c68;
+        border-color: #ff4c68;
+    }
+    .btn-outline-primary:hover {
+        color: #fff;
+        background-color: #ff4c68;
+        border-color: #ff4c68;
+    }
+    .btn-outline-primary:focus, .btn-outline-primary:active {
+        box-shadow: none;
+        color: #fff;
+        background-color: #ff4c68;
+        border-color: #ff4c68;
+    }
+    {% endblock %}
+</head>
+<body>
+    {% block content %}
+    <div class="container py-5">
+        <h1 class="mb-4">ORA AI</h1>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Summarizer</h5>
+                        <p class="card-text">Click here for summarization</p>
+                        <a href="{% url 'summerize-page' %}" class="btn btn-primary">Select</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Content Generator</h5>
+                        <p class="card-text">Click here for content generation</p>
+                        <a href="{% url 'chat' %}" class="btn btn-primary">Select</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

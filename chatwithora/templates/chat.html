@@ -1,0 +1,103 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#chat-form').on('submit', function (event) {
+                event.preventDefault();
+                var userInput = $('#user-input').val();
+                $('#chat-window').append('<p>You: ' + userInput + '</p>');
+                $.ajax({
+                    url: '/chatbot/ask/',
+                    type: 'POST',
+                    data: {user_input: userInput},
+                    success: function (response) {
+                        $('#chat-window').append('<p>Mark: ' + response + '</p>');
+                        $('#user-input').val('');
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <div id="chat-window"></div>
+    <form id="chat-form">
+        {% csrf_token %}
+        <input type="text" placeholder="Enter text here" id="user-input" autocomplete="off" />
+        <input type="submit" value="Send" />
+    </form>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chatbot</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom styles */
+        body {
+            background-image: linear-gradient(to right, #ff4c68, #ff4c68);
+        }
+        .chat-window {
+            height: 400px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="mb-4 text-center">Chatbot</h1>
+        <a href="{% url 'home' %}" class"text-right">Home</a>
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="chat-window bg-light p-3 mb-3">
+                    <div id="chat-messages"></div>
+                </div>
+                <form id="chat-form">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="text" id="user-input" class="form-control" autocomplete="off" placeholder="Type your message here">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#chat-form').on('submit', function (event) {
+                event.preventDefault();
+                var userInput = $('#user-input').val();
+                $('#chat-messages').append('<p class="mb-2"><strong>{{ user.username }}:</strong> ' + userInput + '</p>');
+                var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+                $.ajax({
+                    url: '/chatbot/ask/',
+                    type: 'POST',
+                    data: {user_input: userInput},
+                    headers: {'X-CSRFToken': csrfToken},
+                    success: function (response) {
+                        $('#chat-messages').append('<p class="mb-2"><strong>ORA:</strong> ' + response + '</p>');
+                        $('#user-input').val('');
+                        // Scroll to the bottom of the chat window
+                        var chatWindow = document.getElementById('chat-messages');
+                        chatWindow.scrollTop = chatWindow.scrollHeight;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
