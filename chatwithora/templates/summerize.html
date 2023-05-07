@@ -23,6 +23,7 @@
             <div class="col-lg-8 mx-auto">
                 <div class="chat-window bg-light p-3 mb-3">
                     <div id="chat-messages"></div>
+                    <audio id="audio-player" controls style="display: none;"></audio>
                 </div>
                 <form id="chat-form">
                     {% csrf_token %}
@@ -56,6 +57,11 @@
                     success: function (response) {
                         $('#chat-messages').append('<p class="mb-2"><strong>ORA:</strong> ' + response + '</p>');
                         $('#user-input').val('');
+
+                        var audioPlayer = document.getElementById('audio-player');
+                        audioPlayer.src = 'summary.mp3';
+                        audioPlayer.play()
+
                         // Scroll to the bottom of the chat window
                         var chatWindow = document.getElementById('chat-messages');
                         chatWindow.scrollTop = chatWindow.scrollHeight;

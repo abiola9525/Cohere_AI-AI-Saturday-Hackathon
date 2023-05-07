@@ -1,5 +1,6 @@
 import requests
 import os
+from gtts import gTTS
 
 API_KEY = os.getenv('API_KEY')
 
@@ -40,15 +41,17 @@ def summerizer(user_input):
             'extractiveness':'medium',
             'text' : user_input
         }
+    
     response = requests.post(url, headers=headers, json=data)
     response_data = response.json()
     # print(response_data)
     # completion = response_data
     # return completion
     completion = response_data['summary']
+    # tts = gTTS(text=completion, lang='en')
+    # tts.save('./summary.mp3')
     if completion is None:
         pass
-        # completion = response_data[0]['message']['content']
     return completion
 
 
